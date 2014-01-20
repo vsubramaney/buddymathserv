@@ -3,7 +3,7 @@
  */
 
 var mongoose = require('mongoose')
-    , Problems = mongoose.model('Problems')
+    , Questions = mongoose.model('Questions')
     , url = require( "url" )
     , queryString = require( "querystring" )
 
@@ -12,7 +12,7 @@ exports.get_problem_by_id = function(req, res) {
     var queryObj = queryString.parse( theUrl.query );
     var problem_id = queryObj.id;
 
-    Problems.load(problem_id, function(error, problem){
+    Questions.load(problem_id, function(error, problem){
         if (error){
             res.send(404);
         } else {
@@ -21,8 +21,26 @@ exports.get_problem_by_id = function(req, res) {
     });
 }
 
+exports.get_n_problems = function(req, res) {
+    var theUrl = url.parse( req.url );
+    var queryObj = queryString.parse( theUrl.query );
+    var pageNo = queryObj.pageNo;
+    var n = queryObj.n;
+    if (typeof(n) == 'undefined') {
+        n =10;
+    }
+    Questions.listNProblem(n, pageNo*n, function(error, problem){
+        console.log(n);
+        if (error) {
+            res.send(404);
+        } else {
+            return res.json(problem);
+        }
+    });
+}
+
 exports.get_problems = function(req, res) {
-    Problems.list('', function(error, problems){
+    Questions.list('', function(error, problems){
         if (error) {
             res.send(404);
         } else {
@@ -32,9 +50,9 @@ exports.get_problems = function(req, res) {
 }
 
 exports.get_problem = function (req, res) {
-    randomNo = randomFromInterval(0,31);
+    randomNo = randomFromInterval(0,3);
     console.log("random No - "+randomNo);
-    Problems.randomProblem(randomNo, function(error, problem){
+    Questions.randomProblem(randomNo, function(error, problem){
         if (error) {
             res.send(404);
         } else {
@@ -44,18 +62,17 @@ exports.get_problem = function (req, res) {
 }
 
 exports.createProblem = function(req, res) {
-    console.log("Vinod inside createProblem()----");
-    var problem = new Problems(req.body);
+    var question = new Questions(req.body);
 
-    console.log('Adding Problem:' + JSON.stringify(problem))
-    problem.save(function (err) {
+    console.log('Adding Problem:' + JSON.stringify(question))
+    question.save(function (err) {
+        console.log("error", err);
         if (err) {
           res.send(404);
         } else {
             res.send(200);
         }
     });
-    res.send(200);
 }
 
 var randomFromInterval  = function(from,to) {
