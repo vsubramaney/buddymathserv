@@ -47,6 +47,8 @@ response -
 
 POST Operations
    1. create a mathematical problem
+    
+   
 request -
 use a Rest client with URI - 
 http://buddymathserv-learnnplay.rhcloud.com/createProblem
