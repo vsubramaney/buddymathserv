@@ -8,7 +8,7 @@ module.exports = {
         port : '3000'
     },
     production: {
-        mongooseUri : '',
-        port : ''
+        mongooseUri : 'mongodb://admin:BBn3FgnV6ys7@127.8.190.130:27017/buddymathserv',
+        port : '3000'
     }
 }

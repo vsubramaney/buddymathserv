@@ -23,7 +23,7 @@ var QuestionsSchema = new Schema({
     rules : String, // Used for showing time based problem, challenge with others or do it with your own time
     group : String, // ('M',11) Medium complexity and age group below 11
     correct : String, // Answer for this problem
-    hindId : String, // Image URL for solving this problem
+    hintId : String, // Image URL for solving this problem
     time: String, // Time given for answering this question
     tag : String // Tag cloud, it will be expanded
 })
