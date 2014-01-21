@@ -1,3 +1,6 @@
+/**
+ * Created by vsubramaney on 1/21/14.
+ */
 
 /**
  * Module dependencies.
@@ -10,11 +13,22 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 var app = express();
 var env = app.get('env');
-var settings = require('./config/settings')[env];
+var settings = require('./config/settings')['production'];
+
+var dbOptions = {
+    server:{
+        'auto_reconnect': true,
+        'poolSize': 20,
+        socketOptions: {keepAlive: 1}
+    }
+}
 
 // Bootstrap db connection
-mongoose.connect(settings.mongooseUri)
-
+mongoose.connect(settings.mongooseUri, dbOptions, function(err, db) {
+    if (err) {
+        console.log(err);
+    }
+})
 
 // Bootstrap models
 var models_path = __dirname + '/app/models'
@@ -23,7 +37,8 @@ fs.readdirSync(models_path).forEach(function (file) {
 })
 
 // all environments
-app.set('port', settings.port);
+//app.set('port', settings.port);
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -36,12 +51,15 @@ app.use(express.bodyParser())
 
 // development only
 if ('development' == env) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
 // rout the request to appropriate controller from routes.js
 require('./router/routes')(app)
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+console.log(env);
+
+var server = http.createServer(app);
+server.listen(process.env.OPENSHIFT_NODEJS_PORT || 3000, process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1", function(){
+    console.log('Express server listening on port 3000');
 });
