@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
     , Questions = mongoose.model('Questions')
     , url = require( "url" )
     , queryString = require( "querystring" )
+    , DataMassager = require('../utils/dataHelper')
 
 exports.get_problem_by_id = function(req, res) {
     var theUrl = url.parse( req.url );
@@ -34,7 +35,7 @@ exports.get_n_problems = function(req, res) {
         if (error) {
             res.send(404);
         } else {
-            return res.json(problem);
+            return res.json(DataMassager.addNumericIdentifier(problem, pageNo*n));
         }
     });
 }
@@ -44,7 +45,8 @@ exports.get_problems = function(req, res) {
         if (error) {
             res.send(404);
         } else {
-            res.json(problems);
+            var pageNo = 0;
+            res.json(DataMassager.addNumericIdentifier(problems, pageNo));
         }
     });
 }

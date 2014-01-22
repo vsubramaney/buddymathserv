@@ -16,6 +16,7 @@ var mongoose = require('mongoose')
  * Questions Schema
  */
 var QuestionsSchema = new Schema({
+    id : Number,
     question : String,
     imageId : String, //If the problem has image then it is Image id rather than image URL to render for this problem
     choiceType : String, //CB –Check box, //TB – Text box
