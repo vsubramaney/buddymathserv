@@ -19,7 +19,7 @@ exports.get_problem_by_id = function(req, res) {
         if (error){
             res.send(404);
         } else {
-            res.json(null, problem);
+            res.json(200, problem);
         }
     });
 }
@@ -44,7 +44,7 @@ exports.get_n_problems = function(req, res) {
         if (error) {
             res.send(404);
         } else {
-            return res.json(null, DataMassager.addNumericIdentifier(problem, pageNo*n));
+            return res.json(200, DataMassager.addNumericIdentifier(problem, pageNo*n));
         }
     });
 }
@@ -55,7 +55,7 @@ exports.get_problems = function(req, res) {
             res.send(404);
         } else {
             var pageNo = 0;
-            res.json(null, DataMassager.addNumericIdentifier(problems, pageNo));
+            res.json( 200, DataMassager.addNumericIdentifier(problems, pageNo));
         }
     });
 }
@@ -67,7 +67,7 @@ exports.get_problem = function (req, res) {
         if (error) {
             res.send(404);
         } else {
-            return res.json(null, problem[0]);
+            return res.json(200, problem[0]);
         }
     });
 }
@@ -81,7 +81,7 @@ exports.createProblem = function(req, res) {
         if (err) {
           res.send(404);
         } else {
-            res.send(null, 200);
+            res.send(200, 200);
         }
     });
 }
