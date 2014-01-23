@@ -9,9 +9,11 @@ var mongoose = require('mongoose')
     , DataMassager = require('../utils/dataHelper')
 
 exports.get_problem_by_id = function(req, res) {
-    var theUrl = url.parse( req.url );
+ /*   var theUrl = url.parse( req.url );
     var queryObj = queryString.parse( theUrl.query );
-    var problem_id = queryObj.id;
+    var problem_id = queryObj.id;*/
+
+    var problem_id = req.params.id;
 
     Questions.load(problem_id, function(error, problem){
         if (error){
@@ -26,12 +28,19 @@ exports.get_n_problems = function(req, res) {
     var theUrl = url.parse( req.url );
     var queryObj = queryString.parse( theUrl.query );
     var pageNo = queryObj.pageNo;
-    var n = queryObj.n;
+    //var n = queryObj.n;
+    var n = req.params.n;
     if (typeof(n) == 'undefined') {
         n =10;
     }
+
+    if (typeof(pageNo) == 'undefined' || pageNo == 0) {
+        pageNo = 1;
+    }
+
     Questions.listNProblem(n, pageNo*n, function(error, problem){
         console.log(n);
+
         if (error) {
             res.send(404);
         } else {
