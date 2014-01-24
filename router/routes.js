@@ -2,17 +2,22 @@
  * Created by vsubramaney on 1/16/14.
  */
 
-var questions = require('../app/controllers/questionsController')
+var questionsController = require('../app/controllers/questionsController')
+var userController = require('../app/controllers/userController')
 
 module.exports = function (app)
 {
-    // router for GET requests
-    app.get('/problem', questions.get_problem)
-    app.get('/problem/:id', questions.get_problem_by_id)
-    app.get('/problems', questions.get_problems)
-    app.get('/problems/:n', questions.get_n_problems)
+    // router for Problem
+    app.get('/problem', questionsController.get_problem)
+    app.get('/problem/:id', questionsController.get_problem_by_id)
+    app.get('/problems', questionsController.get_problems)
+    app.get('/problems/:n', questionsController.get_n_problems)
+    app.post('/problem', questionsController.createProblem)
 
-    //router for POST requests
-    app.post('/problem', questions.createProblem)
+    // router for User
+    app.get('/user/:id', userController.getUserById)
+    app.post('/user', userController.createUser)
+    app.post('/user/authenticate', userController.authenticate)
+
 
 }
