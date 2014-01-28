@@ -8,6 +8,9 @@ var mongoose = require('mongoose')
     , queryString = require( "querystring" )
     , DataMassager = require('../utils/dataHelper')
 
+/*
+ method to retrieve problem based on an ObjectId
+*/
 exports.get_problem_by_id = function(req, res) {
  /*   var theUrl = url.parse( req.url );
     var queryObj = queryString.parse( theUrl.query );
@@ -34,20 +37,31 @@ exports.get_n_problems = function(req, res) {
         n =10;
     }
 
-    if (typeof(pageNo) == 'undefined' || pageNo == 0) {
-        pageNo = 1;
+    if (typeof(pageNo) == 'undefined') {
+        pageNo = 0;
     }
 
     Questions.listNProblem(n, pageNo*n, function(error, problem){
-        console.log(n);
+        console.log("Vinod ",n);
+        console.log("Vinod -",pageNo)
+        console.log(parseInt(n,0)*parseInt(pageNo, 0));
+        var n_converted = +n;
+        var pageNo_converted = +pageNo;
 
         if (error) {
             res.send(404);
         } else {
+            console.log(typeof(n_converted), typeof(pageNo_converted));
+            start= n_converted*pageNo_converted;
+            console.log("start - ",start);
+            console.log(DataMassager.addNumericIdentifier(problem, pageNo*n));
             return res.json(200, DataMassager.addNumericIdentifier(problem, pageNo*n));
         }
     });
 }
+
+/*
+// method to get all problems
 
 exports.get_problems = function(req, res) {
     Questions.list('', function(error, problems){
@@ -58,7 +72,7 @@ exports.get_problems = function(req, res) {
             res.json( 200, DataMassager.addNumericIdentifier(problems, pageNo));
         }
     });
-}
+}*/
 
 exports.get_problem = function (req, res) {
     randomNo = randomFromInterval(0,3);

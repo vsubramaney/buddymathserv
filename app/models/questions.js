@@ -20,13 +20,13 @@ var QuestionsSchema = new Schema({
     question : String,
     imageId : String, //If the problem has image then it is Image id rather than image URL to render for this problem
     choiceType : String, //CB –Check box, //TB – Text box
-    choiceOptions : String, // Applicable for RB & CB
-    rules : String, // Used for showing time based problem, challenge with others or do it with your own time
-    group : String, // ('M',11) Medium complexity and age group below 11
+    choiceOptions : Array, // Applicable for RB & CB
+    rules : Array, // Used for showing time based problem, challenge with others or do it with your own time
+    group : Array, // ('M',11) Medium complexity and age group below 11
     correct : String, // Answer for this problem
     hintId : String, // Image URL for solving this problem
     time: String, // Time given for answering this question
-    tag : String // Tag cloud, it will be expanded
+    tag : Array // Tag cloud, it will be expanded
 })
 
 

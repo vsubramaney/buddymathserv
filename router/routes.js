@@ -8,11 +8,11 @@ var userController = require('../app/controllers/userController')
 module.exports = function (app)
 {
     // router for Problem
-    app.get('/problem', questionsController.get_problem)
-    app.get('/problem/:id', questionsController.get_problem_by_id)
-    app.get('/problems', questionsController.get_problems)
+    app.get('/problems/random', questionsController.get_problem)
+    app.get('/problems/:id', questionsController.get_problem_by_id)
+    //app.get('/problems', questionsController.get_problems)
     app.get('/problems/:n', questionsController.get_n_problems)
-    app.post('/problem', questionsController.createProblem)
+    app.post('/problems', questionsController.createProblem)
 
     // router for User
     app.get('/user/:id', userController.getUserById)
