@@ -45,6 +45,6 @@ exports.authenticate = function (req, res) {
         if (!user.authenticate(password)) {
             return res.send(404, "Authentication failure");
         }
-        return res.send(200, "Authentication success");
+        return res.send(200, user);
     });
 }
